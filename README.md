@@ -68,7 +68,7 @@ Nmm2Profile inputfile [outputfile] [options]
 
 `--sig` : Output format as used by SigmaSurf freeware.
 
-`--txt` : Output as basic text file as defined by NPL.
+`--txt` : Output basic text file as defined by NPL.
 
 `--prf` : Output PRF format as defined by NPL.
 
@@ -76,9 +76,3 @@ Nmm2Profile inputfile [outputfile] [options]
 
 `--prDE` : Output PR format as defined by PTB with German key words.
 
-
-
-
-The MIT License (MIT)
-
-Copyright (c) 2015-2020 Michael Matus
