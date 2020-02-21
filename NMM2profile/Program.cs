@@ -1,8 +1,10 @@
 ﻿using Bev.IO.NmmReader;
 using Bev.IO.NmmReader.scan_mode;
 using System;
+using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Threading;
 
 namespace Nmm2Profile
 {
@@ -18,6 +20,7 @@ namespace Nmm2Profile
 
         public static void Main(string[] args)
         {
+            Thread.CurrentThread.CurrentCulture = new CultureInfo("en-US");
             if (!CommandLine.Parser.Default.ParseArgumentsStrict(args, options))
                 Console.WriteLine("*** ParseArgumentsStrict returned false");
             // consume the verbosity option
@@ -80,6 +83,7 @@ namespace Nmm2Profile
             prf.CreationDate = theData.MetaData.CreationDate;
             prf.SampleIdentification = theData.MetaData.SampleIdentifier;
             prf.DeltaX = theData.MetaData.ScanFieldDeltaX * 1e6;
+            prf.UserComment = options.UserComment;
 
             // extract the requested profile
             if (options.ProfileIndex != 0)
@@ -164,7 +168,7 @@ namespace Nmm2Profile
             }
             if (options.convertX3p)
             {
-                WriteSingleOutputFile(filename, FileFormat.x3p);
+                WriteSingleOutputFile(filename, FileFormat.X3p);
             }
         }
 
@@ -203,7 +207,7 @@ namespace Nmm2Profile
                     return $"Output SMD format as of ISO 5436-2. [*{prf.ExtensionFor(fileFormat)}]";
                 case FileFormat.Txt:
                     return $"Output as basic text file as defined by NPL. [*{prf.ExtensionFor(fileFormat)}]";
-                case FileFormat.x3p:
+                case FileFormat.X3p:
                     return $"Output format to XML with schema as of ISO 25178-72. You may also use Nmm2x3p instead. [*{prf.ExtensionFor(fileFormat)}]";
                 default:
                     return "Requested output format unknown.";
