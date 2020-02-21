@@ -18,8 +18,6 @@ namespace NMM2profile
 
         public static void Main(string[] args)
         {
-            // parse command line arguments
-            //var options = new Options();
             if (!CommandLine.Parser.Default.ParseArgumentsStrict(args, options))
                 Console.WriteLine("*** ParseArgumentsStrict returned false");
             // consume the verbosity option
