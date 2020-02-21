@@ -33,14 +33,15 @@ namespace Nmm2Profile
             if (fileNames.Length == 0)
                 ConsoleUI.ErrorExit("!Missing input file", 1);
 
-            // tell user which file format he had choosen
-            // eventually exit before reading input files
-            ConsoleUI.WriteLine(FileFormatToString(MapOptionToFileFormat(options.FileTypeNumber)));
-            if (!prf.IsFormatImplemented(MapOptionToFileFormat(options.FileTypeNumber)))
-            {
-                ConsoleUI.ErrorExit("!File format not implemented (yet)", 9);
-            }
-            ConsoleUI.WriteLine();
+            // if no filetype was choosen, use default one
+            if (!(options.convertBcr &&
+                options.convertPrDe &&
+                options.convertPrEn &&
+                options.convertPrf &&
+                options.convertSig &&
+                options.convertSmd &&
+                options.convertTxt &&
+                options.convertX3p)) options.convertSig = true; // this should be convertBcr in the future
 
             // read all relevant scan data
             ConsoleUI.StartOperation("Reading and evaluating files");
@@ -124,8 +125,56 @@ namespace Nmm2Profile
                 outFileName += $"_p{selectedProfile}";
             }
 
-            ConsoleUI.WritingFile(outFileName);
-            if (!prf.WriteToFile(outFileName, MapOptionToFileFormat(options.FileTypeNumber)))
+            // write all selected file formats at a flush
+            WriteAllOutputFiles(outFileName);
+
+        }
+
+        //======================================================================
+
+        static void WriteAllOutputFiles(string filename)
+        {
+            if (options.convertBcr)
+            {
+                WriteSingleOutputFile(filename, FileFormat.Sdf);
+            }
+            if (options.convertPrDe)
+            {
+                WriteSingleOutputFile(filename, FileFormat.PrDE);
+            }
+            if (options.convertPrEn)
+            {
+                WriteSingleOutputFile(filename, FileFormat.PrEN);
+            }
+            if (options.convertPrf)
+            {
+                WriteSingleOutputFile(filename, FileFormat.Prf);
+            }
+            if (options.convertSig)
+            {
+                WriteSingleOutputFile(filename, FileFormat.SigmaSurf);
+            }
+            if (options.convertSmd)
+            {
+                WriteSingleOutputFile(filename, FileFormat.Smd);
+            }
+            if (options.convertTxt)
+            {
+                WriteSingleOutputFile(filename, FileFormat.Txt);
+            }
+            if (options.convertX3p)
+            {
+                WriteSingleOutputFile(filename, FileFormat.x3p);
+            }
+        }
+
+        //======================================================================
+
+        static void WriteSingleOutputFile(string filename, FileFormat fileFormat)
+        {
+            ConsoleUI.WriteLine(FileFormatToString(fileFormat));
+            ConsoleUI.WritingFile(filename);
+            if (!prf.WriteToFile(filename, fileFormat))
             {
                 ConsoleUI.Abort();
                 ConsoleUI.ErrorExit("!could not write file", 4);
@@ -158,34 +207,6 @@ namespace Nmm2Profile
                     return $"Output format to XML with schema as of ISO 25178-72. You may also use Nmm2x3p instead. [*{prf.ExtensionFor(fileFormat)}]";
                 default:
                     return "Requested output format unknown.";
-            }
-        }
-
-        //======================================================================
-
-        // maps the numerical option to the appropriate enumeration
-        static FileFormat MapOptionToFileFormat(int format)
-        {
-            switch (format)
-            {
-                case 1:
-                    return FileFormat.Txt;
-                case 2:
-                    return FileFormat.SigmaSurf;
-                case 3:
-                    return FileFormat.Prf;
-                case 4:
-                    return FileFormat.PrEN;
-                case 5:
-                    return FileFormat.Sdf;
-                case 6:
-                    return FileFormat.Smd;
-                case 7:
-                    return FileFormat.x3p;
-                case 8:
-                    return FileFormat.PrDE;
-                default:
-                    return FileFormat.Unknown;
             }
         }
 

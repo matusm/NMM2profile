@@ -24,9 +24,6 @@ namespace Nmm2Profile
         [Option('q', "quiet", HelpText = "Quiet mode. No screen output (except for errors).")]
         public bool BeQuiet { get; set; }
 
-        [Option('f', "filetype", DefaultValue = 2, HelpText = "Type of output file.")]
-        public int FileTypeNumber { get; set; }
-
         [Option("heydemann", HelpText = "Perform Heydemann correction.")]
         public bool DoHeydemann { get; set; }
 
@@ -42,6 +39,30 @@ namespace Nmm2Profile
         [Option('p', "profile", DefaultValue = 0, HelpText = "Extract single profile. (0 for all)")]
         public int ProfileIndex { get; set; }
 
+        [Option("sdf",  HelpText = "Convert to SDF file format (ISO 25178-71, EUNA 15178).")]
+        public bool convertBcr { get; set; }
+
+        [Option("txt",  HelpText = "Convert to basic TXT format (by NPL).")]
+        public bool convertTxt { get; set; }
+
+        [Option("sig", HelpText = "Convert to SIG file format used by freeware SigmaSurf.")]
+        public bool convertSig { get; set; }
+
+        [Option("prf",  HelpText = "Convert to PRF file format (by NPL).")]
+        public bool convertPrf { get; set; }
+
+        [Option("prEN",  HelpText = "Convert to PR file format (by PTB, english).")]
+        public bool convertPrEn { get; set; }
+
+        [Option("prDE",  HelpText = "Convert to PR file format (by PTB, german).")]
+        public bool convertPrDe { get; set; }
+
+        [Option("smd",  HelpText = "Convert to SMD file format (ISO 5436-2).")]
+        public bool convertSmd { get; set; }
+
+        [Option("x3p",  HelpText = "Convert to X3P file format (ISO 25178-72).")]
+        public bool convertX3p { get; set; }
+
 
         [ValueList(typeof(List<string>), MaximumElements = 2)]
         public IList<string> ListOfFileNames { get; set; }
@@ -55,7 +76,7 @@ namespace Nmm2Profile
             HelpText help = new HelpText
             {
                 Heading = new HeadingInfo(AppName, "version " + AppVer),
-                Copyright = new CopyrightInfo("Michael Matus", 2015),
+                Copyright = new CopyrightInfo("Michael Matus", 2020),
                 AdditionalNewLineAfterOption = false,
                 AddDashesToOption = true
             };
@@ -67,7 +88,6 @@ namespace Nmm2Profile
             help.AddPreOptionsLine("");
             help.AddPreOptionsLine("Usage: " + AppName + " filename1 [filename2] [options]");
             help.AddPostOptionsLine("");
-            help.AddPostOptionsLine("Supported values for -f: 1=*.txt, 2=*.sig, 3=*.prf, 4=*.pr, 5=*.sdf, 6=*.smd");
             help.AddPostOptionsLine("Supported values for -r: 1=min 2=max 3=average 4=mid 5=bias 6=first 7=last 8=center 9=linear 10=LSQ 11=linear(positive) 12=LSQ(positive)");
 
             help.AddOptions(this);
