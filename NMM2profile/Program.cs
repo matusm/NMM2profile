@@ -4,7 +4,7 @@ using System;
 using System.IO;
 using System.Linq;
 
-namespace NMM2profile
+namespace Nmm2Profile
 {
     class MainClass
     {

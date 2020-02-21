@@ -23,7 +23,7 @@ using System.IO;
 using System.Text;
 using System.Threading;
 
-namespace NMM2profile
+namespace Nmm2Profile
 {
     public class ProfileDataPod
     {

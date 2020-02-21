@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Reflection;
 
-namespace NMM2profile
+namespace Nmm2Profile
 {
     public static class ConsoleUI
     {
