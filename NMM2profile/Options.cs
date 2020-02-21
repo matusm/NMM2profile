@@ -9,20 +9,20 @@ namespace Nmm2Profile
         [Option('c', "channel", DefaultValue = "-LZ+AZ", HelpText = "Channel to export.")]
         public string ChannelSymbol { get; set; }
 
+        [Option("comment", DefaultValue = "*none*", HelpText = "User supplied comment string.")]
+        public string UserComment { get; set; }
+
+        [Option('q', "quiet", HelpText = "Quiet mode. No screen output (except for errors).")]
+        public bool BeQuiet { get; set; }
+
         [Option('s', "scan", DefaultValue = 0, HelpText = "Scan index for multi-scan files.")]
         public int ScanIndex { get; set; }
 
         [Option('r', "reference", DefaultValue = 1, HelpText = "Height reference technique.")]
         public int ReferenceMode { get; set; }
 
-        [Option("comment", DefaultValue = "*none*", HelpText = "User supplied comment string.")]
-        public string UserComment { get; set; }
-
         [Option('b', "bias", DefaultValue = 0.0, HelpText = "bias value [um] to be subtracted.")]
         public double Bias { get; set; }
-
-        [Option('q', "quiet", HelpText = "Quiet mode. No screen output (except for errors).")]
-        public bool BeQuiet { get; set; }
 
         [Option("heydemann", HelpText = "Perform Heydemann correction.")]
         public bool DoHeydemann { get; set; }
