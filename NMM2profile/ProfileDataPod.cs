@@ -140,24 +140,20 @@ namespace Nmm2Profile
                     // This format was designed for F1 softgauges (only?)
                     // ISO 5436-2:2012
                     // **********************************************************
-                    char char3 = (char)3;
-                    char char26 = (char)26;
-                    string sNL = "\r\n";
+                    string endOfRecord = $"{(char)3}\r\n";
                     sb.Append($"ISO 5436-2:2012\0{FileName}\0\r\n");
                     sb.Append("PRF\0 1 ISO5436\0\r\n");
-                    sb.Append($"CX\0 I\0 {zData.Length} mm\0 1.0e0 D\0 {DeltaX:e5} \r\n"); // TODO DeltaX/1000 ?
+                    sb.Append($"CX\0 I\0 {zData.Length} mm\0 1.0e0 D\0 {DeltaX/1000:e5} \r\n");
                     sb.Append($"CZ\0 A\0 {zData.Length} um\0 1.0e0 D\0\r\n");
-                    sb.Append($"{char3}\r\n"); // end of record 1
+                    sb.Append(endOfRecord); // end of record 1
                     sb.Append($"DATE: {CreationDate.ToString("dd-MMMM-yyyy")}\0\r\n");
                     sb.Append($"TIME: {CreationDate.ToString("HH:mm")}\0\r\n");
                     sb.Append("CREATED_BY Michael Matus, BEV\0\r\n"); //TODO
-                    sb.Append("INSTRUMENT_ID SIOS NMM-1\0\r\n");      //TODO
-                    sb.Append("INSTRUMENT_SERIAL 012(?)\0\r\n");      //TODO
                     sb.Append($"COMMENT /* {UserComment} */\0\r\n");
-                    sb.Append($"{char3}\r\n"); // end of record 2
+                    sb.Append(endOfRecord); // end of record 2
                     foreach (double z in zData)
                         sb.Append($"{z:F5}\r\n");
-                    sb.Append($"{char3}\r\n"); // end of record 3
+                    sb.Append(endOfRecord); // end of record 3
                     // checksum calculation
                     ushort chkSum = 0;
                     string s = sb.ToString();
@@ -165,8 +161,8 @@ namespace Nmm2Profile
                     foreach (byte byt in buffer)
                         chkSum += (ushort)byt;
                     sb.Append($"{chkSum.ToString()}\r\n");
-                    sb.Append($"{char3}\r\n"); // end of record 4
-                    sb.Append($"{char26}");    // end of file
+                    sb.Append(endOfRecord); // end of record 4
+                    sb.Append($"{(char)26}"); // end of file
                     break;
                 case FileFormat.Sdf:
                     // TODO implement!
