@@ -40,6 +40,7 @@ namespace Nmm2Profile
         public string FileName { get; set; }
         public string SampleIdentification { get; set; }
         public double DeltaX { get; set; } // in µm !
+        public string UserComment { get; set; }
         #endregion
 
         #region Methods
@@ -133,13 +134,41 @@ namespace Nmm2Profile
                     sb.Length--;
                     break;
                 case FileFormat.Smd:
-                    // TODO implement!
+                    // **********************************************************
+                    // Standardized format used by the surface texture community
+                    // uses some non printeable characters
+                    // This format was designed for F1 softgauges (only?)
+                    // ISO 5436-2:2012
+                    // **********************************************************
+                    string endOfRecord = $"{(char)3}\r\n";
+                    sb.Append($"ISO 5436-2:2012\0{FileName}\0\r\n");
+                    sb.Append("PRF\0 1 ISO5436\0\r\n");
+                    sb.Append($"CX\0 I\0 {zData.Length} mm\0 1.0e0 D\0 {DeltaX/1000:e5} \r\n");
+                    sb.Append($"CZ\0 A\0 {zData.Length} um\0 1.0e0 D\0\r\n");
+                    sb.Append(endOfRecord); // end of record 1
+                    sb.Append($"DATE: {CreationDate.ToString("dd-MMMM-yyyy")}\0\r\n");
+                    sb.Append($"TIME: {CreationDate.ToString("HH:mm")}\0\r\n");
+                    sb.Append("CREATED_BY Michael Matus, BEV\0\r\n"); //TODO
+                    sb.Append($"COMMENT /* {UserComment} */\0\r\n");
+                    sb.Append(endOfRecord); // end of record 2
+                    foreach (double z in zData)
+                        sb.Append($"{z:F5}\r\n");
+                    sb.Append(endOfRecord); // end of record 3
+                    // checksum calculation
+                    ushort chkSum = 0;
+                    string s = sb.ToString();
+                    byte[] buffer = System.Text.Encoding.ASCII.GetBytes(s);
+                    foreach (byte byt in buffer)
+                        chkSum += (ushort)byt;
+                    sb.Append($"{chkSum.ToString()}\r\n");
+                    sb.Append(endOfRecord); // end of record 4
+                    sb.Append($"{(char)26}"); // end of file
                     break;
                 case FileFormat.Sdf:
                     // TODO implement!
                     break;
                 case FileFormat.Unknown:
-                case FileFormat.x3p:
+                case FileFormat.X3p:
                     // will not be implemented!
                     break;
                 default:
@@ -190,13 +219,13 @@ namespace Nmm2Profile
                     return false;
                 case FileFormat.Smd:
                     return false;
-                case FileFormat.x3p:
+                case FileFormat.X3p:
                     return false;
                 default:
                     return false;
             }
         }
-        
+
         public string ExtensionFor(FileFormat fileFormat)
         {
             switch (fileFormat)
@@ -217,7 +246,7 @@ namespace Nmm2Profile
                     return ".sdf";
                 case FileFormat.Smd:
                     return ".smd";
-                case FileFormat.x3p:
+                case FileFormat.X3p:
                     return ".x3p";
                 default:
                     return ".???";
@@ -232,6 +261,7 @@ namespace Nmm2Profile
             SampleIdentification = "<unknown sample>";
             FileName = "<unknown file name>";
             DeltaX = 0.0; // or NaN?
+            UserComment = "<unknown user comment>";
         }
 
         // this is the profile in µm
@@ -249,6 +279,6 @@ namespace Nmm2Profile
         Txt,    // NPL format, basic
         Sdf,    // ISO 25178-71:2012 and EUNA 15178 ENC (1993)
         Smd,    // ISO 5436-2:2012
-        x3p     // XML with schema ISO 25178-72
+        X3p     // XML with schema ISO 25178-72
     }
 }
