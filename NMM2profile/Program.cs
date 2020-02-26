@@ -122,9 +122,6 @@ namespace Nmm2Profile
                 ConsoleUI.ErrorExit($"!Channel {options.ChannelSymbol} not in scan data", 5);
             double[] rawData = theData.ExtractProfile(options.ChannelSymbol, selectedProfile, topographyProcessType);
 
-            if (options.DoHeydemann)
-                ConsoleUI.WriteLine("Heydemann correction currently not implemented.");
-
             // level data 
             DataLeveling levelObject = new DataLeveling(rawData, theData.MetaData.NumberOfDataPoints);
             levelObject.BiasValue = options.Bias * 1.0e-6; //  bias is given in µm on the command line

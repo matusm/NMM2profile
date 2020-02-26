@@ -82,7 +82,7 @@ namespace Nmm2Profile
             };
             string sPre = "Program to convert scanning files by SIOS NMM-1 to files readable by standard surface profiling software. " +
                 "For input files containing multiple line profiles (raster files), a single profile is extracted. " +
-                "Six different output files formats can be choosen. " +
+                "Eight different output files formats can be choosen. " +
                 "A rudimentary data processing is possible via the -r option.";
             help.AddPreOptionsLine(sPre);
             help.AddPreOptionsLine("");
