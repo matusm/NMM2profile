@@ -28,15 +28,15 @@ Nmm2Profile inputfile [outputfile] [options]
 
 `--comment` : User supplied string to be included in the metadata (if supported by file type).
 
-### Options for manipulation
+### Options for height data transformation
 
 `--bias (-b)` : Bias value in µm to be subtracted from the hight values (for `-r5` only).
 
-`--reference (-r)` : Kind of height reference technique, supported values are:
+`--reference (-r)` : The height reference technique, supported values are:
 
-   1: reference to minimum hight value
+   1: reference to minimum hight value (all values positive)
 
-   2: reference to maximum hight value
+   2: reference to maximum hight value (all values negative)
 
    3: reference to average hight value
 
@@ -54,13 +54,13 @@ Nmm2Profile inputfile [outputfile] [options]
 
    10: reference to LSQ plane (or line)
 
-   11: same as 9 but positive definite
+   11: first apply 9, then 1
 
-   12: same as 10 but positive definite
+   12: first apply 10, then 1
 
 ### File type options
 
-`--sdf` : Output SMD format as of ISO 25178-7, ISO 25178-71 and EUNA 15178.
+`--sdf` : Output SDF format as of ISO 25178-7, ISO 25178-71 and EUNA 15178.
 
 `--smd` : Output SMD format as of ISO 5436-2.
 
@@ -72,7 +72,7 @@ Nmm2Profile inputfile [outputfile] [options]
 
 `--prf` : Output PRF format as defined by NPL.
 
-`--prEN` : Output PR format as defined by PTB with Engish key words.
+`--prEN` : Output PR format as defined by PTB with English key words.
 
 `--prDE` : Output PR format as defined by PTB with German key words.
 
