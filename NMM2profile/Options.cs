@@ -88,7 +88,20 @@ namespace Nmm2Profile
             help.AddPreOptionsLine("");
             help.AddPreOptionsLine("Usage: " + AppName + " filename1 [filename2] [options]");
             help.AddPostOptionsLine("");
-            help.AddPostOptionsLine("Supported values for -r: 1=min 2=max 3=average 4=mid 5=bias 6=first 7=last 8=center 9=linear 10=LSQ 11=linear(positive) 12=LSQ(positive)");
+            help.AddPostOptionsLine("Supported values for --reference (-r):");
+            help.AddPostOptionsLine("    0: nop");
+            help.AddPostOptionsLine("    1: min");
+            help.AddPostOptionsLine("    2: max");
+            help.AddPostOptionsLine("    3: average");
+            help.AddPostOptionsLine("    4: mid");
+            help.AddPostOptionsLine("    5: bias");
+            help.AddPostOptionsLine("    6: first");
+            help.AddPostOptionsLine("    7: last");
+            help.AddPostOptionsLine("    8: center");
+            help.AddPostOptionsLine("    9: linear");
+            help.AddPostOptionsLine("   10: LSQ");
+            help.AddPostOptionsLine("   11: linear(positive)");
+            help.AddPostOptionsLine("   12: LSQ(positive)");
 
             help.AddOptions(this);
 
