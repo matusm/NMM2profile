@@ -39,6 +39,12 @@ namespace Nmm2Profile
         [Option('p', "profile", DefaultValue = 0, HelpText = "Extract single profile. (0 for all)")]
         public int ProfileIndex { get; set; }
 
+        [Option("X0", DefaultValue = 0.0, HelpText = "Start of trimmed profil, in um.")]
+        public double Xstart { get; set; }
+
+        [Option("Xlength", DefaultValue = double.MaxValue, HelpText = "Length of trimmed profil, in um.")]
+        public double Xlength { get; set; }
+
         [Option("sdf",  HelpText = "Convert to SDF file format (ISO 25178-71, EUNA 15178).")]
         public bool convertBcr { get; set; }
 
