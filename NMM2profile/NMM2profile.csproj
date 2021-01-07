@@ -26,6 +26,12 @@
     <WarningLevel>4</WarningLevel>
     <ExternalConsole>true</ExternalConsole>
   </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' " />
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <Optimize>false</Optimize>
+    <ExternalConsole>false</ExternalConsole>
+    <AssemblyName>Nmm2Profile</AssemblyName>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="Bev.IO.NmmReader">
       <HintPath>..\..\Bev.IO.NmmReader\Bev.IO.NmmReader\bin\Release\Bev.IO.NmmReader.dll</HintPath>
