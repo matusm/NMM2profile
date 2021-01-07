@@ -28,22 +28,17 @@ namespace Nmm2Profile
     public class ProfileDataPod
     {
 
-        #region Ctor
         public ProfileDataPod()
         {
             ResetData();
         }
-        #endregion
 
-        #region Properties
         public DateTime CreationDate { get; set; }
         public string FileName { get; set; }
         public string SampleIdentification { get; set; }
         public double DeltaX { get; set; } // in µm !
         public string UserComment { get; set; }
-        #endregion
 
-        #region Methods
         // provide the height values in m !
         public void SetProfileData(double[] zRawData)
         {
@@ -252,9 +247,7 @@ namespace Nmm2Profile
                     return ".???";
             }
         }
-        #endregion
 
-        #region Private stuff
         private void ResetData()
         {
             CreationDate = DateTime.UtcNow;
@@ -266,7 +259,6 @@ namespace Nmm2Profile
 
         // this is the profile in µm
         private double[] zData;
-        #endregion
     }
 
     public enum FileFormat
