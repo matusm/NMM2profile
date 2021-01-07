@@ -6,18 +6,21 @@
 //   1) instantiate class;
 //   2) provide required properties;
 //   3) provide profile data by calling SetProfileData(double[]);
-//   4) finally produce the output file by calling WriteToFile(string, FileFormat).
+//   4) eventually trim profile by calling ShortenProfile(double, double)
+//   5) finally produce the output file by calling WriteToFile(string, FileFormat).
 //
 // Caveat:
 //   SetProfileData(double[]) multiplies the z-data with 1e6 (assuming data is in m)
 //
 // Known problems and restrictions:
 //   most properties must be set in advance, otherwise no output will be generated
+//   ShortenProfile() modifies zData. It should be called at most once.
 //
 //*******************************************************************************************
 
 
 using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Text;
@@ -44,6 +47,22 @@ namespace Nmm2Profile
         {
             zData = new double[zRawData.Length];
             zData = Array.ConvertAll(zRawData, z => z * 1.0E6);
+        }
+
+        public void ShortenProfile(double start, double length)
+        {
+            if (zData == null) return;
+            List<double> zTemp = new List<double>();
+            double x = 0.0;
+            for (int i = 0; i < zData.Length; i++)
+            {
+                if (x >= start && x <= start + length)
+                {
+                    zTemp.Add(zData[i]);
+                }
+                x += DeltaX;
+            }
+            zData = zTemp.ToArray();
         }
 
         public string DataToString(FileFormat fileFormat)
@@ -138,7 +157,7 @@ namespace Nmm2Profile
                     string endOfRecord = $"{(char)3}\r\n";
                     sb.Append($"ISO 5436-2:2012\0{FileName}\0\r\n");
                     sb.Append("PRF\0 1 ISO5436\0\r\n");
-                    sb.Append($"CX\0 I\0 {zData.Length} mm\0 1.0e0 D\0 {DeltaX/1000:e5} \r\n");
+                    sb.Append($"CX\0 I\0 {zData.Length} mm\0 1.0e0 D\0 {DeltaX / 1000:e5} \r\n");
                     sb.Append($"CZ\0 A\0 {zData.Length} um\0 1.0e0 D\0\r\n");
                     sb.Append(endOfRecord); // end of record 1
                     sb.Append($"DATE: {CreationDate.ToString("dd-MMMM-yyyy")}\0\r\n");
@@ -161,10 +180,12 @@ namespace Nmm2Profile
                     break;
                 case FileFormat.Sdf:
                     // TODO implement!
+                    throw new NotImplementedException();
                     break;
                 case FileFormat.Unknown:
                 case FileFormat.X3p:
                     // will not be implemented!
+                    throw new NotImplementedException();
                     break;
                 default:
                     break;
