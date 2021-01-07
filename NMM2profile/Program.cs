@@ -128,6 +128,7 @@ namespace Nmm2Profile
             double[] leveledTopographyData = levelObject.LevelData(MapOptionToReference(options.ReferenceMode));
 
             prf.SetProfileData(leveledTopographyData);
+            prf.ShortenProfile(options.Xstart, options.Xlength);
 
             // now generate output
             string outFileName;
