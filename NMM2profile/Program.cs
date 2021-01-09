@@ -44,6 +44,7 @@ namespace Nmm2Profile
                 options.convertSig &&
                 options.convertSmd &&
                 options.convertTxt &&
+                options.convertCsv &&
                 options.convertX3p)) options.convertSig = true; // this should be convertBcr in the future
 
             // read all relevant scan data
