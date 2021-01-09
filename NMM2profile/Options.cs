@@ -66,8 +66,11 @@ namespace Nmm2Profile
         [Option("smd",  HelpText = "Convert to SMD file format (ISO 5436-2).")]
         public bool convertSmd { get; set; }
 
-        [Option("x3p",  HelpText = "Convert to X3P file format (ISO 25178-72).")]
+        [Option("x3p", HelpText = "Convert to X3P file format (ISO 25178-72).")]
         public bool convertX3p { get; set; }
+
+        [Option("csv", HelpText = "Convert to CSV file format.")]
+        public bool convertCsv { get; set; }
 
 
         [ValueList(typeof(List<string>), MaximumElements = 2)]

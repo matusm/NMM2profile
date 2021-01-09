@@ -235,32 +235,32 @@ namespace Nmm2Profile
             return true;
         }
 
-        public bool IsFormatImplemented(FileFormat fileFormat)
-        {
-            switch (fileFormat)
-            {
-                case FileFormat.Unknown:
-                    return false;
-                case FileFormat.SigmaSurf:
-                    return true;
-                case FileFormat.Prf:
-                    return true;
-                case FileFormat.PrDE:
-                    return true;
-                case FileFormat.PrEN:
-                    return true;
-                case FileFormat.Txt:
-                    return true;
-                case FileFormat.Sdf:
-                    return false;
-                case FileFormat.Smd:
-                    return false;
-                case FileFormat.X3p:
-                    return false;
-                default:
-                    return false;
-            }
-        }
+        //public bool IsFormatImplemented(FileFormat fileFormat)
+        //{
+        //    switch (fileFormat)
+        //    {
+        //        case FileFormat.Unknown:
+        //            return false;
+        //        case FileFormat.SigmaSurf:
+        //            return true;
+        //        case FileFormat.Prf:
+        //            return true;
+        //        case FileFormat.PrDE:
+        //            return true;
+        //        case FileFormat.PrEN:
+        //            return true;
+        //        case FileFormat.Txt:
+        //            return true;
+        //        case FileFormat.Sdf:
+        //            return false;
+        //        case FileFormat.Smd:
+        //            return false;
+        //        case FileFormat.X3p:
+        //            return false;
+        //        default:
+        //            return false;
+        //    }
+        //}
 
         public string ExtensionFor(FileFormat fileFormat)
         {
@@ -284,6 +284,8 @@ namespace Nmm2Profile
                     return ".smd";
                 case FileFormat.X3p:
                     return ".x3p";
+                case FileFormat.Csv:
+                    return ".csv";
                 default:
                     return ".???";
             }
@@ -312,6 +314,8 @@ namespace Nmm2Profile
         Txt,    // NPL format, basic
         Sdf,    // ISO 25178-71:2012 and EUNA 15178 ENC (1993)
         Smd,    // ISO 5436-2:2012
-        X3p     // XML with schema ISO 25178-72
+        X3p,    // XML with schema ISO 25178-72
+        Csv     // good old CSV
+
     }
 }
