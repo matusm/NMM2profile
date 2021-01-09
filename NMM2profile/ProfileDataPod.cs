@@ -18,7 +18,6 @@
 //
 //*******************************************************************************************
 
-
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -179,14 +178,35 @@ namespace Nmm2Profile
                     sb.Append($"{(char)26}"); // end of file
                     break;
                 case FileFormat.Sdf:
-                    // TODO implement!
-                    throw new NotImplementedException();
+                    // **********************************************************
+                    // GPS data files according to 
+                    // ISO 25178-7, ISO 25178-71 and EUNA 15178.
+                    // **********************************************************
+                    sb.AppendLine("aBCR - 1.0");
+                    sb.AppendLine($"ManufacID   = BEV / SIOS NMM");
+                    sb.AppendLine($"CreateDate  = {CreationDate.ToString("ddMMyyyyHHmm")}");
+                    sb.AppendLine($"ModDate     = {DateTime.UtcNow.ToString("ddMMyyyyHHmm")}");
+                    sb.AppendLine($"NumPoints   = {zData.Length}");
+                    sb.AppendLine( "NumProfiles = 1");
+                    sb.AppendLine($"Xscale      = {(DeltaX*1e6).ToString("G17")}");
+                    sb.AppendLine($"Yscale      = 0");
+                    sb.AppendLine($"Zscale      = 1.0e-6");
+                    sb.AppendLine( "Zresolution = -1"); // clause 5.2.8, do not modify!
+                    sb.AppendLine( "Compression = 0"); // clause 5.2.9, do not modify!
+                    sb.AppendLine( "DataType    = 7");
+                    sb.AppendLine( "CheckType   = 0"); // clause 5.2.11, do not modify!
+                    sb.AppendLine("*");
+                    foreach (double z in zData)
+                        sb.AppendLine($"{z:G17}"); // round-trip format
+                    sb.AppendLine("*");
+                    sb.AppendLine($"SampleIdentification = {SampleIdentification}");
+                    sb.AppendLine($"UserComment          = {UserComment}");
+                    sb.AppendLine("*");
                     break;
                 case FileFormat.Unknown:
                 case FileFormat.X3p:
                     // will not be implemented!
                     throw new NotImplementedException();
-                    break;
                 default:
                     break;
             }
