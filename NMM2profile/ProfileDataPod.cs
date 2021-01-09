@@ -69,7 +69,7 @@ namespace Nmm2Profile
         {
             // all file types are explicitly designed for MSDOS
             // for this the newline is hard coded as "CR LF"
-            Thread.CurrentThread.CurrentCulture = new CultureInfo("en-US");
+            Thread.CurrentThread.CurrentCulture = CultureInfo.InvariantCulture;
             StringBuilder sb = new StringBuilder();
             switch (fileFormat)
             {
