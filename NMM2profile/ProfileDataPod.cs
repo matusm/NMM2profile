@@ -203,6 +203,15 @@ namespace Nmm2Profile
                     sb.AppendLine($"UserComment          = {UserComment}");
                     sb.AppendLine("*");
                     break;
+                case FileFormat.Csv:
+                    double x = 0.0;
+                    sb.AppendLine("x in µm,z in µm");
+                    foreach(double z in zData)
+                    {
+                        sb.AppendLine($"{x:G17},{z:G17}");
+                        x += DeltaX;
+                    }
+                    break;
                 case FileFormat.Unknown:
                 case FileFormat.X3p:
                     // will not be implemented!
@@ -234,33 +243,6 @@ namespace Nmm2Profile
             }
             return true;
         }
-
-        //public bool IsFormatImplemented(FileFormat fileFormat)
-        //{
-        //    switch (fileFormat)
-        //    {
-        //        case FileFormat.Unknown:
-        //            return false;
-        //        case FileFormat.SigmaSurf:
-        //            return true;
-        //        case FileFormat.Prf:
-        //            return true;
-        //        case FileFormat.PrDE:
-        //            return true;
-        //        case FileFormat.PrEN:
-        //            return true;
-        //        case FileFormat.Txt:
-        //            return true;
-        //        case FileFormat.Sdf:
-        //            return false;
-        //        case FileFormat.Smd:
-        //            return false;
-        //        case FileFormat.X3p:
-        //            return false;
-        //        default:
-        //            return false;
-        //    }
-        //}
 
         public string ExtensionFor(FileFormat fileFormat)
         {
