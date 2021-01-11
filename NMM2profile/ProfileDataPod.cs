@@ -246,6 +246,7 @@ namespace Nmm2Profile
                     sb.AppendLine($"UserComment          = {UserComment}");
                     sb.AppendLine($"TrimmedStart         = {Start} µm");
                     sb.AppendLine($"TrimmedLength        = {Length} µm");
+                    sb.AppendLine($"TipConvolution       = {TipConvolutionMessage}");
                     sb.AppendLine("*");
                     break;
                 case FileFormat.Csv:
