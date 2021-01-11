@@ -9,7 +9,7 @@ namespace Nmm2Profile
         [Option('c', "channel", DefaultValue = "-LZ+AZ", HelpText = "Channel to export.")]
         public string ChannelSymbol { get; set; }
 
-        [Option("comment", DefaultValue = "-none-", HelpText = "User supplied comment string.")]
+        [Option("comment", DefaultValue = "---", HelpText = "User supplied comment string.")]
         public string UserComment { get; set; }
 
         [Option('q', "quiet", HelpText = "Quiet mode. No screen output (except for errors).")]
@@ -45,7 +45,7 @@ namespace Nmm2Profile
         [Option("Xlength", DefaultValue = double.MaxValue, HelpText = "Length of trimmed profil, in um.")]
         public double Xlength { get; set; }
 
-        [Option("sdf",  HelpText = "Convert to SDF file format (ISO 25178-71, EUNA 15178).")]
+        [Option("bcr",  HelpText = "Convert to BCR file format (ISO 25178-71, EUNA 15178).")]
         public bool convertBcr { get; set; }
 
         [Option("txt",  HelpText = "Convert to basic TXT format (by NPL).")]

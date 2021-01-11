@@ -37,14 +37,14 @@ namespace Nmm2Profile
                 ConsoleUI.ErrorExit("!Missing input file", 1);
 
             // if no filetype was choosen, use default one
-            if (!(options.convertBcr &&
-                options.convertPrDe &&
-                options.convertPrEn &&
-                options.convertPrf &&
-                options.convertSig &&
-                options.convertSmd &&
-                options.convertTxt &&
-                options.convertCsv &&
+            if (!(options.convertBcr ||
+                options.convertPrDe ||
+                options.convertPrEn ||
+                options.convertPrf ||
+                options.convertSig ||
+                options.convertSmd ||
+                options.convertTxt ||
+                options.convertCsv ||
                 options.convertX3p)) options.convertSig = true; // this should be convertBcr in the future
 
             // read all relevant scan data
@@ -154,7 +154,7 @@ namespace Nmm2Profile
         {
             if (options.convertBcr)
             {
-                WriteSingleOutputFile(filename, FileFormat.Sdf);
+                WriteSingleOutputFile(filename, FileFormat.Bcr);
             }
             if (options.convertPrDe)
             {
@@ -179,6 +179,10 @@ namespace Nmm2Profile
             if (options.convertTxt)
             {
                 WriteSingleOutputFile(filename, FileFormat.Txt);
+            }
+            if (options.convertCsv)
+            {
+                WriteSingleOutputFile(filename, FileFormat.Csv);
             }
             if (options.convertX3p)
             {
@@ -213,14 +217,16 @@ namespace Nmm2Profile
                     return $"Output PR format as defined by PTB with English key words. [*{prf.ExtensionFor(fileFormat)}]";
                 case FileFormat.Prf:
                     return $"Output PRF format as defined by NPL. [*{prf.ExtensionFor(fileFormat)}]";
-                case FileFormat.Sdf:
-                    return $"Output SMD format as of ISO 25178-71 and EUNA 15178. You may also use Nmm2Bcr instead. [*{prf.ExtensionFor(fileFormat)}]";
+                case FileFormat.Bcr:
+                    return $"Output SMD format as of ISO 25178-71 and EUNA 15178. [*{prf.ExtensionFor(fileFormat)}]";
                 case FileFormat.SigmaSurf:
                     return $"Output format as used by SigmaSurf freeware. [*{prf.ExtensionFor(fileFormat)}]";
                 case FileFormat.Smd:
                     return $"Output SMD format as of ISO 5436-2. [*{prf.ExtensionFor(fileFormat)}]";
                 case FileFormat.Txt:
                     return $"Output as basic text file as defined by NPL. [*{prf.ExtensionFor(fileFormat)}]";
+                case FileFormat.Csv:
+                    return $"Output as basic CSV file. [*{prf.ExtensionFor(fileFormat)}]";
                 case FileFormat.X3p:
                     return $"Output format to XML with schema as of ISO 25178-72. You may also use Nmm2x3p instead. [*{prf.ExtensionFor(fileFormat)}]";
                 default:

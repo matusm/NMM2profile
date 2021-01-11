@@ -177,7 +177,7 @@ namespace Nmm2Profile
                     sb.Append(endOfRecord); // end of record 4
                     sb.Append($"{(char)26}"); // end of file
                     break;
-                case FileFormat.Sdf:
+                case FileFormat.Bcr:
                     // **********************************************************
                     // GPS data files according to 
                     // ISO 25178-7, ISO 25178-71 and EUNA 15178.
@@ -199,7 +199,11 @@ namespace Nmm2Profile
                     foreach (double z in zData)
                         sb.AppendLine($"{z:G17}"); // round-trip format
                     sb.AppendLine("*");
+                    string AppName = System.Reflection.Assembly.GetExecutingAssembly().GetName().Name;
+                    string AppVer = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString();
+                    sb.AppendLine($"ConvertedBy          = {AppName} version {AppVer}");
                     sb.AppendLine($"SampleIdentification = {SampleIdentification}");
+                    sb.AppendLine($"FileName             = {FileName}"); // this is useless
                     sb.AppendLine($"UserComment          = {UserComment}");
                     sb.AppendLine("*");
                     break;
@@ -260,7 +264,7 @@ namespace Nmm2Profile
                     return ".pr";
                 case FileFormat.Txt:
                     return ".txt";
-                case FileFormat.Sdf:
+                case FileFormat.Bcr:
                     return ".sdf";
                 case FileFormat.Smd:
                     return ".smd";
@@ -294,10 +298,9 @@ namespace Nmm2Profile
         PrDE,   // PTB format, old
         PrEN,   // PTB format, new
         Txt,    // NPL format, basic
-        Sdf,    // ISO 25178-71:2012 and EUNA 15178 ENC (1993)
+        Bcr,    // ISO 25178-71:2012 and EUNA 15178 ENC (1993)
         Smd,    // ISO 5436-2:2012
         X3p,    // XML with schema ISO 25178-72
         Csv     // good old CSV
-
     }
 }
