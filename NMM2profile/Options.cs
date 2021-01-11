@@ -9,7 +9,7 @@ namespace Nmm2Profile
         [Option('c', "channel", DefaultValue = "-LZ+AZ", HelpText = "Channel to export.")]
         public string ChannelSymbol { get; set; }
 
-        [Option("comment", DefaultValue = "*none*", HelpText = "User supplied comment string.")]
+        [Option("comment", DefaultValue = "-none-", HelpText = "User supplied comment string.")]
         public string UserComment { get; set; }
 
         [Option('q', "quiet", HelpText = "Quiet mode. No screen output (except for errors).")]
