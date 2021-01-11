@@ -42,6 +42,9 @@ namespace Nmm2Profile
         [Option("X0", DefaultValue = 0.0, HelpText = "Start of trimmed profil, in um.")]
         public double Xstart { get; set; }
 
+        [Option("tip", DefaultValue = 0.0, HelpText = "Tip radius, in um.")]
+        public double TipRadius { get; set; }
+
         [Option("Xlength", DefaultValue = double.MaxValue, HelpText = "Length of trimmed profil, in um.")]
         public double Xlength { get; set; }
 

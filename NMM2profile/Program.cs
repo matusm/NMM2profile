@@ -129,7 +129,7 @@ namespace Nmm2Profile
             double[] leveledTopographyData = levelObject.LevelData(MapOptionToReference(options.ReferenceMode));
 
             prf.SetProfileData(leveledTopographyData);
-            // TODO filter profile
+            prf.TipConvolution(options.TipRadius);
             prf.ShortenProfile(options.Xstart, options.Xlength);
 
             // now generate output

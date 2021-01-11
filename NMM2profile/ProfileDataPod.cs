@@ -22,6 +22,7 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
+using System.Linq;
 using System.Text;
 using System.Threading;
 
@@ -42,6 +43,7 @@ namespace Nmm2Profile
         public string UserComment { get; set; }
         public double Start { get; private set; }
         public double Length { get; private set; }
+        public string TipConvolutionMessage { get; private set; }
 
         // provide the height values in m !
         public void SetProfileData(double[] zRawData)
@@ -66,6 +68,39 @@ namespace Nmm2Profile
                 x += DeltaX;
             }
             zData = zTemp.ToArray();
+        }
+
+        public void TipConvolution(double tipRadius)
+        {
+            TipConvolutionMessage = "no tip convolution performed";
+            if (tipRadius <= 0.0) return;
+            int n = (int)(tipRadius / DeltaX);
+            if (n < 1) return;
+            double[] tipProfile = new double[n + 1];
+            for (int i = 0; i < tipProfile.Length; i++)
+            {
+                double x = (i-n) * DeltaX;
+                tipProfile[i] = Math.Sqrt(tipRadius * tipRadius - x * x);
+            }
+
+            double[] zDataTemp = new double[zData.Length];
+            
+            for (int i = 0; i < zData.Length; i++)
+            {
+                List<double> convoluted = new List<double>();
+                for (int j = -n; j <= n; j++)
+                {
+                    if ((i + j) < 0) break;
+                    if ((i + j) >= zData.Length) break;
+
+                    double y = tipProfile[Math.Abs(j)] + zData[i + j];
+
+                    convoluted.Add(y);
+                }
+                zDataTemp[i] = convoluted.Max();
+            }
+            TipConvolutionMessage = $"spherical tip radius {tipRadius} µm";
+            Array.Copy(zDataTemp, zData, zDataTemp.Length);
         }
 
         public string DataToString(FileFormat fileFormat)
@@ -191,14 +226,14 @@ namespace Nmm2Profile
                     sb.AppendLine($"CreateDate  = {CreationDate.ToString("ddMMyyyyHHmm")}");
                     sb.AppendLine($"ModDate     = {DateTime.UtcNow.ToString("ddMMyyyyHHmm")}");
                     sb.AppendLine($"NumPoints   = {zData.Length}");
-                    sb.AppendLine( "NumProfiles = 1");
-                    sb.AppendLine($"Xscale      = {(DeltaX*1e-6).ToString("G17")}");
+                    sb.AppendLine("NumProfiles = 1");
+                    sb.AppendLine($"Xscale      = {(DeltaX * 1e-6).ToString("G17")}");
                     sb.AppendLine($"Yscale      = 0");
                     sb.AppendLine($"Zscale      = 1.0e-6");
-                    sb.AppendLine( "Zresolution = -1"); // clause 5.2.8, do not modify!
-                    sb.AppendLine( "Compression = 0"); // clause 5.2.9, do not modify!
-                    sb.AppendLine( "DataType    = 7");
-                    sb.AppendLine( "CheckType   = 0"); // clause 5.2.11, do not modify!
+                    sb.AppendLine("Zresolution = -1"); // clause 5.2.8, do not modify!
+                    sb.AppendLine("Compression = 0"); // clause 5.2.9, do not modify!
+                    sb.AppendLine("DataType    = 7");
+                    sb.AppendLine("CheckType   = 0"); // clause 5.2.11, do not modify!
                     sb.AppendLine("*");
                     foreach (double z in zData)
                         sb.AppendLine($"{z:G17}"); // round-trip format
@@ -216,7 +251,7 @@ namespace Nmm2Profile
                 case FileFormat.Csv:
                     double x = 0.0;
                     sb.AppendLine("x in µm,z in µm");
-                    foreach(double z in zData)
+                    foreach (double z in zData)
                     {
                         sb.AppendLine($"{x:G17},{z:G17}");
                         x += DeltaX;
