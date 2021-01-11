@@ -188,7 +188,7 @@ namespace Nmm2Profile
                     sb.AppendLine($"ModDate     = {DateTime.UtcNow.ToString("ddMMyyyyHHmm")}");
                     sb.AppendLine($"NumPoints   = {zData.Length}");
                     sb.AppendLine( "NumProfiles = 1");
-                    sb.AppendLine($"Xscale      = {(DeltaX*1e6).ToString("G17")}");
+                    sb.AppendLine($"Xscale      = {(DeltaX*1e-6).ToString("G17")}");
                     sb.AppendLine($"Yscale      = 0");
                     sb.AppendLine($"Zscale      = 1.0e-6");
                     sb.AppendLine( "Zresolution = -1"); // clause 5.2.8, do not modify!
