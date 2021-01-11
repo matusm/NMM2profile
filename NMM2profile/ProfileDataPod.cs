@@ -40,6 +40,8 @@ namespace Nmm2Profile
         public string SampleIdentification { get; set; }
         public double DeltaX { get; set; } // in µm !
         public string UserComment { get; set; }
+        public double Start { get; private set; }
+        public double Length { get; private set; }
 
         // provide the height values in m !
         public void SetProfileData(double[] zRawData)
@@ -50,6 +52,8 @@ namespace Nmm2Profile
 
         public void ShortenProfile(double start, double length)
         {
+            Start = start;
+            Length = length;
             if (zData == null) return;
             List<double> zTemp = new List<double>();
             double x = 0.0;
@@ -205,6 +209,8 @@ namespace Nmm2Profile
                     sb.AppendLine($"SampleIdentification = {SampleIdentification}");
                     sb.AppendLine($"FileName             = {FileName}"); // this is useless
                     sb.AppendLine($"UserComment          = {UserComment}");
+                    sb.AppendLine($"TrimmedStart         = {Start} µm");
+                    sb.AppendLine($"TrimmedLength        = {Length} µm");
                     sb.AppendLine("*");
                     break;
                 case FileFormat.Csv:
@@ -284,6 +290,8 @@ namespace Nmm2Profile
             FileName = "<unknown file name>";
             DeltaX = 0.0; // or NaN?
             UserComment = "<unknown user comment>";
+            Start = 0.0;
+            Length = 0.0;
         }
 
         // this is the profile in µm
