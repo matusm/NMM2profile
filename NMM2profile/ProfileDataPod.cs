@@ -83,25 +83,29 @@ namespace Nmm2Profile
                 double x = (i-n) * DeltaX;
                 tipProfile[i] = Math.Sqrt(tipRadius * tipRadius - x * x);
             }
-
-            double[] zDataTemp = new double[zData.Length];
-            
+            double[] zDataConvoluted = new double[zData.Length];
             for (int i = 0; i < zData.Length; i++)
             {
                 List<double> convoluted = new List<double>();
                 for (int j = -n; j <= n; j++)
                 {
-                    if ((i + j) < 0) break;
-                    if ((i + j) >= zData.Length) break;
-
+                    if ((i + j) < 0)
+                    {
+                        convoluted.Add(zData[i]);
+                        break; 
+                    }
+                    if ((i + j) >= zData.Length)
+                    {
+                        convoluted.Add(zData[i]);
+                        break;
+                    }
                     double y = tipProfile[Math.Abs(j)] + zData[i + j];
-
                     convoluted.Add(y);
                 }
-                zDataTemp[i] = convoluted.Max();
+                zDataConvoluted[i] = convoluted.Max();
             }
             TipConvolutionMessage = $"spherical tip radius {tipRadius} µm";
-            Array.Copy(zDataTemp, zData, zDataTemp.Length);
+            Array.Copy(zDataConvoluted, zData, zDataConvoluted.Length);
         }
 
         public string DataToString(FileFormat fileFormat)

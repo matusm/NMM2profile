@@ -20,7 +20,8 @@ namespace Nmm2Profile
 
         public static void Main(string[] args)
         {
-            Thread.CurrentThread.CurrentCulture = new CultureInfo("en-US");
+            CultureInfo.CurrentCulture = CultureInfo.InvariantCulture;
+            
             if (!CommandLine.Parser.Default.ParseArgumentsStrict(args, options))
                 Console.WriteLine("*** ParseArgumentsStrict returned false");
             // consume the verbosity option
@@ -53,7 +54,6 @@ namespace Nmm2Profile
             nmmFileNameObject.SetScanIndex(options.ScanIndex);
             theData = new NmmScanData(nmmFileNameObject);
             ConsoleUI.Done();
-            ConsoleUI.WriteLine();
 
             if (options.DoHeydemann)
             {
@@ -66,7 +66,6 @@ namespace Nmm2Profile
                 {
                     ConsoleUI.WriteLine($"Heydemann correction not successful.");
                 }
-                ConsoleUI.WriteLine();
             }
 
             // some checks of the provided CLA options
@@ -135,7 +134,10 @@ namespace Nmm2Profile
             // now generate output
             string outFileName;
             if (fileNames.Length >= 2)
+            { 
                 outFileName = fileNames[1];
+                outFileName += $"_p{selectedProfile}";
+            }
             else
             {
                 outFileName = nmmFileNameObject.GetFreeFileNameWithIndex(""); // extension will be added by WriteToFile()
