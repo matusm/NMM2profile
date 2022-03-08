@@ -72,10 +72,11 @@ namespace Nmm2Profile
 
         public void TipConvolution(double tipRadius)
         {
-            TipConvolutionMessage = "no tip convolution performed";
-            if (tipRadius <= 0.0) return;
+            if (tipRadius <= 0.0) 
+                return;
             int n = (int)(tipRadius / DeltaX);
-            if (n < 1) return;
+            if (n < 1) 
+                return;
             double[] tipProfile = new double[n + 1];
             for (int i = 0; i < tipProfile.Length; i++)
             {
@@ -328,6 +329,7 @@ namespace Nmm2Profile
             UserComment = "<unknown user comment>";
             Start = 0.0;
             Length = 0.0;
+            TipConvolutionMessage = "no tip convolution performed";
         }
 
         // this is the profile in µm
