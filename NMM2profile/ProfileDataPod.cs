@@ -72,19 +72,15 @@ namespace Nmm2Profile
 
         public void TipConvolution(double tipRadius)
         {
-            if (tipRadius <= 0.0) 
+            if (tipRadius <= DeltaX) 
                 return;
             int n = (int)(tipRadius / DeltaX);
             if (n < 1) 
                 return;
-            double[] tipProfile = new double[n + 1];
-            for (int i = 0; i < tipProfile.Length; i++)
-            {
-                double x = (i) * DeltaX;
-                tipProfile[i] = Math.Sqrt(tipRadius * tipRadius - x * x);
-            }
+
             double[] zDataConvoluted = new double[zData.Length];
-            for (int i = 0; i < zData.Length; i++)
+
+            for (int i = 0; i < zDataConvoluted.Length; i++)
             {
                 List<double> convoluted = new List<double>();
                 for (int j = -n; j <= n; j++)
@@ -99,14 +95,23 @@ namespace Nmm2Profile
                         convoluted.Add(zData[i]);  // this is a workaround
                         break;
                     }
-                    double y = tipProfile[Math.Abs(j)] + zData[i + j];
-                    convoluted.Add(y - tipRadius);
+                    double y = zData[i + j] - TipProfile(tipRadius, j);
+                    convoluted.Add(y);
                 }
                 zDataConvoluted[i] = convoluted.Max();
             }
             TipConvolutionMessage = $"spherical tip radius {tipRadius} µm";
             Array.Copy(zDataConvoluted, zData, zDataConvoluted.Length);
             ShortenProfile(tipRadius, Length - (2 * tipRadius));
+        }
+
+        // semicircle, minimum (0) at index=0
+        private double TipProfile(double tipRadius, int index)
+        {
+            // index must stay in bounds!
+            double x = index * DeltaX;
+            double y = Math.Sqrt(tipRadius * tipRadius - x * x);
+            return y;
         }
 
         public string DataToString(FileFormat fileFormat)
