@@ -31,7 +31,6 @@ namespace Nmm2Profile
                 ConsoleUI.BeVerbatim();
             // print a welcome message
             ConsoleUI.Welcome();
-            ConsoleUI.WriteLine();
             // get the filename(s)
             fileNames = options.ListOfFileNames.ToArray();
             if (fileNames.Length == 0)

@@ -332,7 +332,6 @@ namespace Nmm2Profile
             DeltaX = 0.0; // or NaN?
             UserComment = "<unknown user comment>";
             Start = 0.0;
-            Length = 0.0;
             TipConvolutionMessage = "no tip convolution performed";
         }
 
