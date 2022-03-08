@@ -91,12 +91,12 @@ namespace Nmm2Profile
                 {
                     if ((i + j) < 0)
                     {
-                        convoluted.Add(zData[i]);
+                        convoluted.Add(zData[i]); // this is a workaround
                         break; 
                     }
                     if ((i + j) >= zData.Length)
                     {
-                        convoluted.Add(zData[i]);
+                        convoluted.Add(zData[i]);  // this is a workaround
                         break;
                     }
                     double y = tipProfile[Math.Abs(j)] + zData[i + j];
