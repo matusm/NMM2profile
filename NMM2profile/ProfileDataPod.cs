@@ -95,17 +95,17 @@ namespace Nmm2Profile
                         convoluted.Add(zData[i]);  // this is a workaround
                         break;
                     }
-                    double y = zData[i + j] - TipProfile(tipRadius, j);
+                    double y = zData[i + j] + TipProfile(tipRadius, j);
                     convoluted.Add(y);
                 }
-                zDataConvoluted[i] = convoluted.Max();
+                zDataConvoluted[i] = convoluted.Max() - tipRadius;
             }
             TipConvolutionMessage = $"spherical tip radius {tipRadius} µm";
             Array.Copy(zDataConvoluted, zData, zDataConvoluted.Length);
             ShortenProfile(tipRadius, Length - (2 * tipRadius));
         }
 
-        // semicircle, minimum (0) at index=0
+        // semicircle, maximum (r) at index=0
         private double TipProfile(double tipRadius, int index)
         {
             // index must stay in bounds!
