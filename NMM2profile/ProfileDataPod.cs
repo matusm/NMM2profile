@@ -42,7 +42,7 @@ namespace Nmm2Profile
         public double DeltaX { get; set; } // in µm !
         public string UserComment { get; set; }
         public double Start { get; private set; }
-        public double Length { get; private set; }
+        public double Length => DeltaX * (zData.Length - 1);
         public string TipConvolutionMessage { get; private set; }
 
         // provide the height values in m !
@@ -55,7 +55,6 @@ namespace Nmm2Profile
         public void ShortenProfile(double start, double length)
         {
             Start = start;
-            Length = length;
             if (zData == null) return;
             List<double> zTemp = new List<double>();
             double x = 0.0;
@@ -100,12 +99,13 @@ namespace Nmm2Profile
                         break;
                     }
                     double y = tipProfile[Math.Abs(j)] + zData[i + j];
-                    convoluted.Add(y);
+                    convoluted.Add(y - tipRadius);
                 }
                 zDataConvoluted[i] = convoluted.Max();
             }
             TipConvolutionMessage = $"spherical tip radius {tipRadius} µm";
             Array.Copy(zDataConvoluted, zData, zDataConvoluted.Length);
+            ShortenProfile(tipRadius, Length - (2 * tipRadius));
         }
 
         public string DataToString(FileFormat fileFormat)
