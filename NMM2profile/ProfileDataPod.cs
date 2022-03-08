@@ -55,7 +55,8 @@ namespace Nmm2Profile
         public void ShortenProfile(double start, double length)
         {
             Start = start;
-            if (zData == null) return;
+            if (zData == null) 
+                return;
             List<double> zTemp = new List<double>();
             double x = 0.0;
             for (int i = 0; i < zData.Length; i++)
