@@ -80,7 +80,7 @@ namespace Nmm2Profile
             double[] tipProfile = new double[n + 1];
             for (int i = 0; i < tipProfile.Length; i++)
             {
-                double x = (i-n) * DeltaX;
+                double x = (i) * DeltaX;
                 tipProfile[i] = Math.Sqrt(tipRadius * tipRadius - x * x);
             }
             double[] zDataConvoluted = new double[zData.Length];
