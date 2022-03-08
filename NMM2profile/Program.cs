@@ -203,7 +203,6 @@ namespace Nmm2Profile
                 ConsoleUI.ErrorExit("!could not write file", 4);
             }
             ConsoleUI.Done();
-            ConsoleUI.WriteLine();
         }
 
         //======================================================================
