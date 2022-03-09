@@ -4,6 +4,8 @@ Nmm2Profile - NMM Data to Profile File Converter
 A standalone command line tool that converts files produced by the [SIOS](https://sios-de.com) NMM-1.
 The produced GPS data files are formated according to ISO 25178-7, ISO 25178-71, ISO 25178-72, EUNA 15178 (BCR) and formats proposed by PTB and NPL, respectively.
 
+Some basic leveling procedures can be used. Moreover it is possible to convolute the raw profile with a spherical probe tip of given radius.
+
 ## Command Line Usage:  
 
 ```
@@ -28,6 +30,12 @@ Nmm2Profile inputfile [outputfile] [options]
 
 `--comment` : User supplied string to be included in the metadata (if supported by file type).
 
+`--X0` : Start of trimmed profil, in µm.
+
+`--Xlength` : Length of trimmed profil, in µm.
+
+`--tip` : Convolute file with sherical probe. Parameter is the tip radius in µm.
+
 ### Options for height data transformation
 
 `--bias (-b)` : Bias value in µm to be subtracted from the hight values (for `-r5` only).
@@ -50,9 +58,9 @@ Nmm2Profile inputfile [outputfile] [options]
 
    8: reference to the hight value of the center of scan field (or profile)
 
-   9: reference to connecting plane (or line)
+   9: reference to connecting line
 
-   10: reference to LSQ plane (or line)
+   10: reference to LSQ line
 
    11: first apply 9, then 1
 
@@ -60,11 +68,11 @@ Nmm2Profile inputfile [outputfile] [options]
 
 ### File type options
 
-`--sdf` : Output SDF format as of ISO 25178-7, ISO 25178-71 and EUNA 15178.
+`--sdf` : Output BCR format as of ISO 25178-7, ISO 25178-71 and EUNA 15178.
 
 `--smd` : Output SMD format as of ISO 5436-2.
 
-`--x3p` : Output format to XML with schema as of ISO 25178-72.
+`--x3p` : Output format to XML with schema as of ISO 25178-72. (currently not implemented)
 
 `--sig` : Output format as used by SigmaSurf freeware.
 
