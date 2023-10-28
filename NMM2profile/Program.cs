@@ -12,7 +12,7 @@ namespace Nmm2Profile
     {
         // some objects will be needed in methods other than Main()
         static readonly Options options = new Options();
-        static readonly ProfileDataPod prf = new ProfileDataPod();
+        static readonly ProfileDataPod profileData = new ProfileDataPod();
         static NmmFileName nmmFileNameObject;
         static NmmScanData theData;
         static TopographyProcessType topographyProcessType;
@@ -56,14 +56,14 @@ namespace Nmm2Profile
 
             if (options.DoHeydemann)
             {
-                theData.ApplyHeydemannCorrection();
-                if (theData.HeydemannCorrectionApplied)
+                theData.ApplyNLcorrection();
+                if (theData.NonlinearityCorrectionApplied)
                 {
-                    ConsoleUI.WriteLine($"Heydemann correction applied, span {theData.HeydemannCorrectionSpan * 1e9:F1} nm");
+                    ConsoleUI.WriteLine($"Interferometric nonlinearity correction applied, span {theData.NonlinearityCorrectionSpan * 1e9:F1} nm");
                 }
                 else
                 {
-                    ConsoleUI.WriteLine($"Heydemann correction not successful.");
+                    ConsoleUI.WriteLine($"Interferometric nonlinearity correction not successful.");
                 }
             }
 
@@ -93,10 +93,10 @@ namespace Nmm2Profile
 
             // now we can start to sort and format everything we need
 
-            prf.CreationDate = theData.MetaData.CreationDate;
-            prf.SampleIdentification = theData.MetaData.SampleIdentifier;
-            prf.DeltaX = theData.MetaData.ScanFieldDeltaX * 1e6;
-            prf.UserComment = options.UserComment;
+            profileData.CreationDate = theData.MetaData.CreationDate;
+            profileData.SampleIdentification = theData.MetaData.SampleIdentifier;
+            profileData.DeltaX = theData.MetaData.ScanFieldDeltaX * 1e6;
+            profileData.UserComment = options.UserComment;
 
             // extract the requested profile
             if (options.ProfileIndex != 0)
@@ -126,9 +126,9 @@ namespace Nmm2Profile
             levelObject.BiasValue = options.Bias * 1.0e-6; //  bias is given in µm on the command line
             double[] leveledTopographyData = levelObject.LevelData(MapOptionToReference(options.ReferenceMode));
 
-            prf.SetProfileData(leveledTopographyData);
-            prf.TipConvolution(options.TipRadius);
-            prf.ShortenProfile(options.Xstart, options.Xlength);
+            profileData.SetProfileData(leveledTopographyData);
+            profileData.TipConvolution(options.TipRadius);
+            profileData.ShortenProfile(options.Xstart, options.Xlength);
 
             // now generate output
             string outFileName;
@@ -197,7 +197,7 @@ namespace Nmm2Profile
         {
             ConsoleUI.WriteLine(FileFormatToString(fileFormat));
             ConsoleUI.WritingFile(filename);
-            if (!prf.WriteToFile(filename, fileFormat))
+            if (!profileData.WriteToFile(filename, fileFormat))
             {
                 ConsoleUI.Abort();
                 ConsoleUI.ErrorExit("!could not write file", 4);
@@ -212,23 +212,23 @@ namespace Nmm2Profile
             switch (fileFormat)
             {
                 case FileFormat.PrDE:
-                    return $"Output PR format as defined by PTB with German key words. [*{prf.ExtensionFor(fileFormat)}]";
+                    return $"Output PR format as defined by PTB with German key words. [*{profileData.ExtensionFor(fileFormat)}]";
                 case FileFormat.PrEN:
-                    return $"Output PR format as defined by PTB with English key words. [*{prf.ExtensionFor(fileFormat)}]";
+                    return $"Output PR format as defined by PTB with English key words. [*{profileData.ExtensionFor(fileFormat)}]";
                 case FileFormat.Prf:
-                    return $"Output PRF format as defined by NPL. [*{prf.ExtensionFor(fileFormat)}]";
+                    return $"Output PRF format as defined by NPL. [*{profileData.ExtensionFor(fileFormat)}]";
                 case FileFormat.Bcr:
-                    return $"Output SMD format as of ISO 25178-71 and EUNA 15178. [*{prf.ExtensionFor(fileFormat)}]";
+                    return $"Output SMD format as of ISO 25178-71 and EUNA 15178. [*{profileData.ExtensionFor(fileFormat)}]";
                 case FileFormat.SigmaSurf:
-                    return $"Output format as used by SigmaSurf freeware. [*{prf.ExtensionFor(fileFormat)}]";
+                    return $"Output format as used by SigmaSurf freeware. [*{profileData.ExtensionFor(fileFormat)}]";
                 case FileFormat.Smd:
-                    return $"Output SMD format as of ISO 5436-2. [*{prf.ExtensionFor(fileFormat)}]";
+                    return $"Output SMD format as of ISO 5436-2. [*{profileData.ExtensionFor(fileFormat)}]";
                 case FileFormat.Txt:
-                    return $"Output as basic text file as defined by NPL. [*{prf.ExtensionFor(fileFormat)}]";
+                    return $"Output as basic text file as defined by NPL. [*{profileData.ExtensionFor(fileFormat)}]";
                 case FileFormat.Csv:
-                    return $"Output as basic CSV file. [*{prf.ExtensionFor(fileFormat)}]";
+                    return $"Output as basic CSV file. [*{profileData.ExtensionFor(fileFormat)}]";
                 case FileFormat.X3p:
-                    return $"Output format to XML with schema as of ISO 25178-72. You may also use Nmm2x3p instead. [*{prf.ExtensionFor(fileFormat)}]";
+                    return $"Output format to XML with schema as of ISO 25178-72. You may also use Nmm2x3p instead. [*{profileData.ExtensionFor(fileFormat)}]";
                 default:
                     return "Requested output format unknown.";
             }
