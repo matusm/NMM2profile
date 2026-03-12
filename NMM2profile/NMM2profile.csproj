@@ -33,8 +33,8 @@
     <AssemblyName>Nmm2Profile</AssemblyName>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Bev.IO.NmmReader">
-      <HintPath>..\..\Bev.IO.NmmReader\Bev.IO.NmmReader\bin\Release\Bev.IO.NmmReader.dll</HintPath>
+    <Reference Include="At.Matus.IO.NmmReader">
+      <HintPath>..\..\At.Matus.IO.NmmReader\At.Matus.IO.NmmReader\bin\Release\At.Matus.IO.NmmReader.dll</HintPath>
     </Reference>
     <Reference Include="CommandLine, Version=1.9.71.2, Culture=neutral, PublicKeyToken=de6f01bd326f8c32, processorArchitecture=MSIL">
       <HintPath>..\packages\CommandLineParser.1.9.71\lib\net45\CommandLine.dll</HintPath>

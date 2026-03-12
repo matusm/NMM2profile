@@ -84,3 +84,15 @@ Nmm2Profile inputfile [outputfile] [options]
 
 `--prDE` : Output PR format as defined by PTB with German key words.
 
+## Installation
+If you do not want to build the application from the source code you can use the released binaries. Just copy the .exe and the .dll files to a directory of your choice. This direcory should be included in the user's PATH variable.
+
+## Dependencies and Acknowledgments
+* [At.Matus.IO.NmmReader](https://github.com/matusm/At.Matus.IO.NmmReader)  
+* [CommandLineParser](https://github.com/commandlineparser/commandline)
+* [Math.NET numerics](https://numerics.mathdotnet.com)
+
+---
+
+**Note**: This library is not officially affiliated with or endorsed by SIOS Meßtechnik GmbH.
+
